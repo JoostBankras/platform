@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+    <article class="media content-section">
+    <div class="row">
+        <div>
+            <img class='rounded-circle article-img' src="{{ post.author.profile.image.url }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                <h5>{{ post.author }}</h5>
+                <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+                {% if object.author == user %}
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'vacature-update' object.id %}"> Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'vacature-delete' object.id %}"> Delete</a>
+                </div>
+                {% else %}
+                <form method ="POST">
+                    {% csrf_token %}
+                <div>
+                    <button class="btn btn-outline-info" type="submit">reaction</button>
+                    <a onclick="update()" class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'add_reaction' object.id%}">reageer nu!</a>
+                </div>
+                </form>            
+                {% endif %}
+                </div>
+                <h2 class="article-title">{{ object.title }}</h2>
+                <p class="article-content">{{ object.content }}</p>
+            </div>
+        </div>
+    </div>
+    </article>
+    {% if object.author == user %}
+    <div class="media content-section">
+        <p> reacties :</p>
+        {% for reaction in object.reactions %}
+        <div>
+        <a href="{% url 'user-profile' reaction %}"><p> {{ reaction }} </p></a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</script>
+{% endblock content %}

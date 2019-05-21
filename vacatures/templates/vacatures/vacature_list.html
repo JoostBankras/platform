@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Nedflex jobs ~ Vacatures</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'vacatures/style.css' %}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="jumbotron.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'homepage' %}">Nedflex Jobs</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'vacatures' %}">Vacatures <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'vacatures-create' %}">Nieuwe Vacature</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <div class="jumbotron">
+        <div class="container" >
+            <h1 class="display-3">Nedflex jobs!</h1>
+            {% if user.is_authenticated %}
+            <p>Hier ziet u alle vacatures die open staan voor u.</p>
+            {% else %}
+            <p>Log in om alle vacatures en alle details te zien</p>
+            <p><a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Log in &raquo;</a></p>
+            <p><a class="btn btn-primary btn-lg" href="{% url 'register' %}" role="button">Register &raquo;</a></p>
+            {% endif %}      
+        </div>
+    </div>
+
+    <div class="container">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="space"></div>
+        {% if user.is_authenticated %}
+        {% for post in posts %}
+            <div class="card content-section" style="width: 35rem;">
+                <div class="card-body">
+                  <h2 class="card-title">{{ post.title }}</h5>
+                  <p class="card-text">{{ post.date_posted|date:"F d, Y" }}</p>
+                  <p class="card-text">{{ post.content }}</p>
+                  <a href="{% url 'vacature-detail' post.id %}" class="btn btn-primary">Check it out!</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        {% for post in posts %}
+            <div class="card content-section" style="width: 35rem;">
+                <div class="card-body">
+                  <h2 class="card-title">{{ post.title }}</h5>
+                  <p class="card-text">{{ post.date_posted|date:"F d, Y" }}</p>
+                  <p class="card-text">{{ post.content }}</p>
+                  <a href="{% url 'login' %}" class="btn btn-primary">Check it out!</a>
+                </div>
+            </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://v4-alpha.getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://v4-alpha.getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
